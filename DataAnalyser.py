@@ -1,53 +1,69 @@
 import json
 
 from Session import Session
+from Session import EventType
 
 class DataAnalyser:
 
     def __init__(self, filename):    
-        with open(filename, "r") as f:
+        with open(filename, 'r') as f:
             self.sessions = []
 
-            lineDictList = []
+            line_dict_list = []
             for line in f:
-                lineDict = json.loads(line)
-                lineDictList.append(lineDict)
+                line_dict = json.loads(line)
+                line_dict_list.append(line_dict)
 
-        if len(lineDictList) == 0:
+        if len(line_dict_list) == 0:
             return
 
         activities = []
         i = 0
-        currSessionId = lineDictList[i]['session_id']
-        activities.append(lineDictList[i])
+        curr_session_id = line_dict_list[i]['session_id']
+        activities.append(line_dict_list[i])
 
         i = 1
-        while i < len(lineDictList):
-            if currSessionId == lineDictList[i]['session_id']:
-                activities.append(lineDictList[i])
+        while i < len(line_dict_list):
+            if curr_session_id == line_dict_list[i]['session_id']:
+                activities.append(line_dict_list[i])
             else:
-                session = Session(currSessionId, activities)
+                session = Session(curr_session_id, activities)
                 self.sessions.append(session)
                 activities = []
-                currSessionId = lineDictList[i]['session_id']
-                activities.append(lineDictList[i])
+                curr_session_id = line_dict_list[i]['session_id']
+                activities.append(line_dict_list[i])
             i += 1
 
-    def showSessions(self):
+    def show_sessions(self):
         for session in self.sessions:
-            print("\nsessionId = {}:\n".format(session.sessionId))
-            for sessionActivity in session.sessionActivities:
-                print("timestamp = {}, userId = {}, productId = {}, eventType = {}, offeredDiscount = {}\n".format(sessionActivity.timestamp,
-                                                                                                                sessionActivity.userId,
-                                                                                                                sessionActivity.productId,
-                                                                                                                sessionActivity.eventType,
-                                                                                                                sessionActivity.offeredDiscount))
+            print("\nsession id = {}:\n".format(session.session_id))
+            for session_activity in session.session_activities:
+                print("timestamp = {}, user id = {}, product id = {}, event type = {}, offered discount = {}\n".format(session_activity.timestamp,
+                                                                                                                session_activity.user_id,
+                                                                                                                session_activity.product_id,
+                                                                                                                session_activity.event_type,
+                                                                                                                session_activity.offered_discount))
 
-    def buySessionStatistics(self):
-        buySessionsCount = 0
+    # statistics of BUY and NOT BUY sessions
+    def buy_sessions_statistics(self):
+        buy_sessions_count = 0
         for session in self.sessions:
-            if session.ifBuy == True:
-                buySessionsCount += 1
+            if session.if_buy == True:
+                buy_sessions_count += 1
 
-        print("TOTAL = {}, BUY_SESSIONS = {}, NOT_BUY_SESSIONS = {}"
-                                            .format(len(self.sessions), buySessionsCount, len(self.sessions) - buySessionsCount))
+        print("TOTAL = {}, BUY SESSIONS = {}, NOT BUY SESSIONS = {}"
+                                            .format(len(self.sessions), buy_sessions_count, len(self.sessions) - buy_sessions_count))
+
+    # check in each BUY SESSION that VIEW precedes BUY
+    def how_much_buy_sessions_without_view(self):
+        buy_sessions_without_view_count = 0
+        
+        for session in self.sessions:
+            if session.if_buy:
+                buy_activity = session.get_buy_session_activity()
+                view_activities_assoc_with_buy_activity = session.get_view_activities_assoc_with_buy_activity(buy_activity) 
+
+                if len(view_activities_assoc_with_buy_activity) == 0:
+                    buy_sessions_without_view_count += 1
+
+        print ("Number of BUY sessions without VIEW events = {}".format(buy_sessions_without_view_count))
