@@ -4,6 +4,7 @@ from Session import Session
 from Session import EventType
 from Product import Product
 from User import User
+from User import Gender
 
 class DataAnalyser:
 
@@ -55,8 +56,8 @@ class DataAnalyser:
         if len(line_dict_list) == 0:
             return
 
-        for line in line_dict_list:
-            product = Product(line['product_id'], line['product_name'], line['category_path'], line['price'])
+        for line_dict in line_dict_list:
+            product = Product(line_dict['product_id'], line_dict['product_name'], line_dict['category_path'], line_dict['price'])
             self.products.append(product)
 
 
@@ -70,8 +71,8 @@ class DataAnalyser:
         if len(line_dict_list) == 0:
             return
 
-        for line in line_dict_list:
-            user = User(line['user_id'], line['city'])
+        for line_dict in line_dict_list:
+            user = User(line_dict)
             self.users.append(user)
 
 
@@ -238,3 +239,17 @@ class DataAnalyser:
                     wrong_sessions_count += 1
 
         print("Number of BUY sessions in which BUY activity isn't at the end = {}".format(wrong_sessions_count))
+
+    def genders_proportion(self):
+        females_count = 0
+        males_count = 0
+        
+        for user in self.users:
+            if user.gender == Gender.FEMALE:
+                females_count += 1
+            elif user.gender == Gender.MALE:
+                males_count += 1
+        
+        unknown_count = len(self.users) - (females_count + males_count)
+
+        print("Number of: females = {}, males = {}, unknown = {}, total = {}".format(females_count, males_count, unknown_count, len(self.users)))

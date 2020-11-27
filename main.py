@@ -21,7 +21,9 @@ def main():
     #data_analyser.how_much_incorrect_discounts()
     #data_analyser.how_much_incorrect_prices()
     #data_analyser.are_very_expensive_products_in_buy_sessions()
-    data_analyser.is_buy_activity_always_at_the_end_of_buy_session()
+    #data_analyser.is_buy_activity_always_at_the_end_of_buy_session()
+
+    data_analyser.genders_proportion()
 
 if __name__ == '__main__':
     main()
