@@ -12,7 +12,7 @@ def get_enum_value_of_event_type(event_type):
     elif event_type == 'VIEW_PRODUCT':
         return EventType.VIEW
     else:
-        return None
+        return EventType.UNKNOWN
 
 
 class Session:
