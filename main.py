@@ -1,9 +1,17 @@
-import os
+from Model import Model
 from DataAnalyser import DataAnalyser
+from datasets import *
+import os
+
 
 
 def main():
     data_analyser = DataAnalyser("data/sessions.jsonl", "data/products.jsonl", "data/users.jsonl")
+
+    model = Model(basic_dataset(data_analyser))
+    model.show_dataset_shapes()
+    model.train()
+    model.test(show_accuracy=True)
 
     #data_analyser.show_sessions()
     #data_analyser.show_products()
@@ -23,7 +31,7 @@ def main():
     #data_analyser.are_very_expensive_products_in_buy_sessions()
     #data_analyser.is_buy_activity_always_at_the_end_of_buy_session()
 
-    data_analyser.genders_proportion()
+    # data_analyser.genders_proportion()
 
 if __name__ == '__main__':
     main()

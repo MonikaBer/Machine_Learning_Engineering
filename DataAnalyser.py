@@ -78,7 +78,7 @@ class DataAnalyser:
 
     def show_sessions(self):
         for session in self.sessions:
-            print("\nsession id = {}:\n".format(session.session_id))
+            print("\nsession id = {} duration = {}s :\n".format(session.session_id, session.duration_in_seconds))
             for session_activity in session.session_activities:
                 print("timestamp = {}, user id = {}, product id = {}, event type = {}, offered discount = {}\n".format(session_activity.timestamp,
                                                                                                                 session_activity.user_id,

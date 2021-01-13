@@ -1,10 +1,11 @@
 from enum import Enum
+from datetime import datetime
 
 class Session:
     def __init__(self, session_id, activities):
         self.session_id = session_id
         self.session_activities = []
-        self.if_buy = False
+        self.if_buy = False 
 
         for activity in activities:
             try:
@@ -14,6 +15,13 @@ class Session:
                     self.if_buy = True
             except:
                 print("Problem with data set formatting")
+
+        self.duration = self.calculate_duration()   # czas trwania liczony w sekundach
+
+
+    def calculate_duration(self):
+        delta =  self.session_activities[-1].timestamp - self.session_activities[0].timestamp
+        return delta.total_seconds()
 
 
     def get_buy_session_activity(self):
@@ -36,7 +44,7 @@ class Session:
 
 class SessionActivity:
     def __init__(self, activity):
-        self.timestamp = activity['timestamp']
+        self.timestamp = datetime.strptime(activity['timestamp'], '%Y-%m-%dT%H:%M:%S')
         self.user_id = activity['user_id'] 
         self.product_id = activity['product_id']
         try:
