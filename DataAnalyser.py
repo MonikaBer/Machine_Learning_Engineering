@@ -16,6 +16,27 @@ class DataAnalyser:
         self.init_sessions(sessions_filename)
         self.init_products(products_filename)
         self.init_users(users_filename)
+        self.calculate_purchase_frequences()
+
+
+    def calculate_purchase_frequences(self):
+        """Dla każdego produktu wylicza jego purchase frequency"""
+        
+        def check_in_session(s, p):
+            for a in s.session_activities:
+                if a.product_id == p.product_id:
+                    return True
+            return False
+
+        for p in self.products:
+            was_in_session_count = 0
+            bought_in_session_count = 0
+            for s in self.sessions:
+                if check_in_session(s, p):
+                    was_in_session_count += 1
+                if s.if_buy and s.session_activities[-1].product_id == p.product_id:
+                    bought_in_session_count += 1
+            p.frequency = 0 if was_in_session_count==0 else bought_in_session_count/was_in_session_count
 
         
     def init_sessions(self, sessions_filename):
@@ -89,10 +110,11 @@ class DataAnalyser:
 
     def show_products(self):
         for product in self.products:
-            print("product id = {}, product name = {}, category path = {}, price = {}\n".format(product.product_id, 
+            print("product id = {}, product name = {}, category path = {}, price = {}, frequency = {} \n".format(product.product_id, 
                                                                                        product.product_name,
                                                                                        product.category_path,
-                                                                                       product.price))
+                                                                                       product.price,
+                                                                                       product.frequency))
 
 
     def show_users(self):

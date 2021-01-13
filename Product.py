@@ -5,6 +5,7 @@ class Product:
         self.product_id = product_id
         self.product_name = product_name
         self.category_path = category_path
+        self.frequency = None
         try:
             self.price = int(price)
         except:
