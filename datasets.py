@@ -1,10 +1,28 @@
-from DataAnalyser import DataAnalyser
 import numpy as np
 
+from DataAnalyser import DataAnalyser
 from User import Gender
 
 
 def basic_dataset(data_analyser:DataAnalyser):
+    """
+    Atrybut:
+    1)Ilość aktywności w sesji
+    """
+
+    features = np.array([(
+        len(s.session_activities),
+        ) 
+        for s in data_analyser.sessions])
+    
+    labels  = np.array([int(s.if_buy) for s in data_analyser.sessions])
+
+    return features, labels
+
+
+
+
+def complex_dataset(data_analyser:DataAnalyser):
     """
     Atrybuty:
     1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
@@ -39,6 +57,8 @@ def basic_dataset(data_analyser:DataAnalyser):
     labels  = np.array([int(s.if_buy) for s in data_analyser.sessions])
 
     return features, labels
+
+
 
 
 def find_price_reduction(session, data_analyzer:DataAnalyser):

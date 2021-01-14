@@ -1,24 +1,38 @@
-from Model import Model
-from DataAnalyser import DataAnalyser
-from datasets import *
 import os
 import joblib
 
+from Model import Model
+from DataAnalyser import DataAnalyser
+from datasets import *
 
 
 def main():
     data_analyser = DataAnalyser("data/sessions.jsonl", "data/products.jsonl", "data/users.jsonl")
 
-    model = Model(basic_dataset(data_analyser), best_params_search=True)
-    model.show_dataset_shapes()
-    model.train()
-    print("\nTesting on test data:")
-    model.test(show_accuracy=True, test_data=True)
-    print("\nTesting on train data:")
-    model.test(show_accuracy=True, test_data=False)
+    print("\n----------BASIC-MODEL-TRAINING-----------:")
+    basic_model = Model(basic_dataset(data_analyser), best_params_search=False)
+    basic_model.show_dataset_shapes()
+    basic_model.train()
+    print("\nBasic model testing on test data:")
+    basic_model.test(show_accuracy=True, test_data=True)
+    print("\nBasic model testing on train data:")
+    basic_model.test(show_accuracy=True, test_data=False)
+
+    joblib.dump(basic_model, 'models/basic_model')
 
 
-    joblib.dump(model, 'models/complex_model')
+
+    print("\n\n\n----------COMPLEX-MODEL-TRAINING-----------:")
+    complex_model = Model(complex_dataset(data_analyser), best_params_search=True)
+    complex_model.show_dataset_shapes()
+    complex_model.train()
+    print("\nComplex model testing on test data:")
+    complex_model.test(show_accuracy=True, test_data=True)
+    print("\nComplex model testing on train data:")
+    complex_model.test(show_accuracy=True, test_data=False)
+
+    joblib.dump(complex_model, 'models/complex_model')
+
 
 
     #data_analyser.show_sessions()
