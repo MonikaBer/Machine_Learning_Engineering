@@ -1,4 +1,4 @@
-from enum import Enum
+from enum import IntEnum
 
 class User:
 
@@ -8,7 +8,7 @@ class User:
         self.city = user['city']
 
 
-class Gender(Enum):
+class Gender(IntEnum):
     MALE = 0
     FEMALE = 1
     UNKNOWN = 2

@@ -6,8 +6,8 @@ import numpy as np
 class Model:
     def __init__(self, dataset):
         features, labels = dataset
-        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.25, random_state = 42) 
-        self.regressor = RandomForestRegressor(n_estimators = 100, random_state = 0) 
+        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
+        self.regressor = RandomForestRegressor(n_estimators = 200, random_state = 42) 
 
 
     def train(self):
@@ -17,13 +17,19 @@ class Model:
 
     def test(self, show_accuracy = False):
         predictions = self.regressor.predict(self.test_features)
+        self.show_mean_absolute_error(predictions)
         self.show_mean_square_error(predictions)
         if show_accuracy: self.show_accuracy(predictions)
 
 
+    def show_mean_absolute_error(self, predictions):
+        mae = abs(predictions - self.test_labels)
+        print(f'Mean absolute error: {round(np.mean(mae), 2)} degrees')
+
+
     def show_mean_square_error(self, predictions):
-        mse = (np.square(predictions - self.test_labels)).mean()
-        print(f'Mean square error: {round(mse, 4)}')
+        mse = (np.square(predictions - self.test_labels))
+        print(f'Mean square error: {round(np.mean(mse), 2)}')
 
 
     def show_accuracy(self, predictions):
