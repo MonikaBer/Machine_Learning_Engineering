@@ -1,9 +1,9 @@
 import json
 import joblib
 import numpy as np
-from Model import Model
-from SystemData import SystemData
-from EventForMicro import EventForMicro
+from common.Model import Model
+from predictions.SystemData import SystemData
+from predictions.EventForMicro import EventForMicro
 
 
 def parse_event(event_line):

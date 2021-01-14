@@ -1,10 +1,10 @@
 import json
 
-from Session import Session
-from Session import EventType
-from Product import Product
-from User import User
-from User import Gender
+from common.Session import Session
+from common.Session import EventType
+from training.Product import Product
+from training.User import User
+from training.User import Gender
 
 class DataAnalyser:
 

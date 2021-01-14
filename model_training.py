@@ -1,9 +1,9 @@
 import os
 import joblib
 
-from Model import Model
-from DataAnalyser import DataAnalyser
-from datasets import *
+from common.Model import Model
+from training.DataAnalyser import DataAnalyser
+from training.datasets import *
 
 
 def main():

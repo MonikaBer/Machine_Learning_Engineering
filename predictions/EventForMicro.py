@@ -1,4 +1,4 @@
-from Session import EventType
+from common.Session import EventType
 
 class EventForMicro:
     def __init__(self, session_id, user_id, product_id, event_type):

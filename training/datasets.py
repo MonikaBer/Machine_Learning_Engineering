@@ -1,7 +1,7 @@
 import numpy as np
 
-from DataAnalyser import DataAnalyser
-from User import Gender
+from training.DataAnalyser import DataAnalyser
+from training.User import Gender
 
 
 def basic_dataset(data_analyser:DataAnalyser):

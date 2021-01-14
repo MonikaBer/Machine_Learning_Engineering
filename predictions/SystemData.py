@@ -1,10 +1,10 @@
 import json
 
-from EventForMicro import EventForMicro
-from SessionForMicro import SessionForMicro
-from Session import EventType
-from ProductForMicro import ProductForMicro
-from UserForMicro import UserForMicro
+from predictions.EventForMicro import EventForMicro
+from predictions.SessionForMicro import SessionForMicro
+from common.Session import EventType
+from predictions.ProductForMicro import ProductForMicro
+from predictions.UserForMicro import UserForMicro
 
 class SystemData:
 
