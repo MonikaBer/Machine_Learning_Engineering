@@ -11,7 +11,11 @@ def main():
     model = Model(basic_dataset(data_analyser))
     model.show_dataset_shapes()
     model.train()
-    model.test(show_accuracy=True)
+    print("\nTesting on test data:")
+    model.test(show_accuracy=True, test_data=True)
+    print("\nTesting on train data:")
+    model.test(show_accuracy=True, test_data=False)
+
 
     #data_analyser.show_sessions()
     #data_analyser.show_products()
