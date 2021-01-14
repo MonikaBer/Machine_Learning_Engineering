@@ -7,24 +7,31 @@ from User import Gender
 def basic_dataset(data_analyser:DataAnalyser):
     """
     Atrybuty:
-    1) Ilość aktywności w sesji                             - bardzo dużo informacji wnosi
-    2) Obniżka cenowa ostanio ogladanego produktu           - nie wnosi nic
-    3) Zniżka ostatniej aktywnosci                          - nie wnosi nic
-    4) Czas trwania w sekundach                             - trochę informacji wnosi względem samych zer, ale i tak 1) lepsze samo
-    5) Częstotliwość kupowania ostatnio oglądanego produktu - prawie nic nie wnosi
+    1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
+    2) Stosunek sesji zakończonych kupnem do wszystkich dotychczasowych sesji usera                     - trochę informacji wnosi
+    3) Atrakcyjność cenowa (cena ostatnio oglądanego produktu w sesji wzg śr ceny produktów z tej kat.) - trochę informacji wnosi
+    4) Częstotliwość kupowania ostatnio oglądanego produktu                                             - trochę informacji wnosi                
+    
+    5) Kategoria produktu                                                                               - prawie nic nie wnosi 
+    6) Obniżka cenowa ostanio ogladanego produktu                                                       - nie wnosi nic
+    7) Zniżka ostatniej aktywnosci                                                                      - nie wnosi nic
+    8) Czas trwania sesji w sekundach                                                                   - trochę informacji wnosi względem samych zer, ale i tak 1) lepsze samo
+    9) Miasto użytkownika związanego z sesją                                                            - nie wnosi nic
+    10) Płeć użytkownika związanego z sesją                                                             - nie wnosi nic
     """
     # W tupli wszystkie features, które model będzie uwzględniał
     features = np.array([(
                         len(s.session_activities),
                         get_previous_buy_sessions_for_user_proportion(s, data_analyser),
                         get_price_attractiveness(s, data_analyser),
-                        #find_price_reduction(s, data_analyser),
-                        #get_user_gender(s, data_analyser),
+                        find_frequency(s, data_analyser),
+
+                        #get_category(s, data_analyser),
+                        # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
                         # s.duration,
-                        find_frequency(s, data_analyser),
                         # get_city(s, data_analyser),
-                        get_category(s, data_analyser),
+                        # get_user_gender(s, data_analyser),
                         # 0,
                         ) 
                         for s in data_analyser.sessions])
