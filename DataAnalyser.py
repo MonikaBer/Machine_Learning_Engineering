@@ -77,11 +77,15 @@ class DataAnalyser:
         if len(line_dict_list) == 0:
             return
 
+        categories = []
         for line_dict in line_dict_list:
             # category_path = (line_dict['category_path'])[:(line_dict['category_path']).index(';')]
             # product = Product(line_dict['product_id'], line_dict['product_name'], category_path, line_dict['price'])
             product = Product(line_dict['product_id'], line_dict['product_name'], line_dict['category_path'], line_dict['price'])
             self.products.append(product)
+            categories.append(product.category_path[product.category_path.index(';')])
+
+        self.categories_set = set(categories)
 
     def init_users(self, users_filename):
         with open(users_filename, 'r') as f:

@@ -24,6 +24,7 @@ def basic_dataset(data_analyser:DataAnalyser):
                         # s.duration,
                         find_frequency(s, data_analyser),
                         # get_city(s, data_analyser),
+                        get_category(s, data_analyser),
                         # 0,
                         ) 
                         for s in data_analyser.sessions])
@@ -110,9 +111,24 @@ def get_price_attractiveness(s, data_analyser:DataAnalyser):
 def get_city(s, data_analyser:DataAnalyser):
     for u in data_analyser.users:
         if u.user_id == s.user_id:
-            counter = 0
+            ind = 0
             for city in data_analyser.cities_set:
                 if city == u.city:
-                    return counter
-                counter += 1
+                    return ind
+                ind += 1
     return 0
+
+def get_category(s, data_analyser:DataAnalyser):
+    last_product_id = s.session_activities[-1].product_id
+    last_product_category = None
+    
+    for p in data_analyser.products:
+        if p.product_id == last_product_id:
+            last_product_category = p.category_path
+            ind = 0
+            for c in data_analyser.categories_set:
+                if c == p.category_path:
+                    return ind
+                ind += 1
+
+    return -1
