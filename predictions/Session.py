@@ -1,4 +1,4 @@
-class SessionForMicro:
+class Session:
     def __init__(self, first_event):
         self.events = []
         self.events.append(first_event)

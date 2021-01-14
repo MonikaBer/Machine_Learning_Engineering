@@ -3,11 +3,11 @@ import joblib
 import numpy as np
 from common.Model import Model
 from predictions.SystemData import SystemData
-from predictions.EventForMicro import EventForMicro
+from predictions.Event import Event
 
 
 def parse_event(event_line):
-    event = EventForMicro(  event_line['session_id'], event_line['user_id'], 
+    event = Event(  event_line['session_id'], event_line['user_id'], 
                             event_line['product_id'], event_line['event_type'])
     return event
 

@@ -1,6 +1,6 @@
 from common.Session import EventType
 
-class EventForMicro:
+class Event:
     def __init__(self, session_id, user_id, product_id, event_type):
         self.session_id = session_id
         self.user_id = user_id

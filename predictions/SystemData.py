@@ -1,10 +1,10 @@
 import json
 
-from predictions.EventForMicro import EventForMicro
-from predictions.SessionForMicro import SessionForMicro
+from predictions.Event import Event
+from predictions.Session import Session
 from common.Session import EventType
-from predictions.ProductForMicro import ProductForMicro
-from predictions.UserForMicro import UserForMicro
+from predictions.Product import Product
+from predictions.User import User
 
 class SystemData:
 
@@ -28,7 +28,7 @@ class SystemData:
             return
 
         for line_dict in line_dict_list:
-            product = ProductForMicro(line_dict['product_id'])
+            product = Product(line_dict['product_id'])
             self.products.append(product)
 
 
@@ -43,7 +43,7 @@ class SystemData:
             return
 
         for line_dict in line_dict_list:
-            user = UserForMicro(line_dict['user_id'])
+            user = User(line_dict['user_id'])
             self.users.append(user)
 
 
@@ -63,7 +63,7 @@ class SystemData:
                 if s.session_id == event.session_id:
                     s.addEvent(event)
                     return
-            new_session = SessionForMicro(event)
+            new_session = Session(event)
             self.ownerless_sessions.append(new_session)
             return
         
@@ -74,7 +74,7 @@ class SystemData:
                         s.addEvent(event)
                         return
                 
-                new_session = SessionForMicro(event)
+                new_session = Session(event)
                 u.sessions_history.append(new_session)
                 return
 
