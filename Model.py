@@ -1,14 +1,30 @@
 from sklearn.ensemble import RandomForestRegressor 
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 import numpy as np
 
 
 class Model:
-    def __init__(self, dataset):
+    def __init__(self, dataset, best_params_search = False):
         features, labels = dataset
         self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
-        self.regressor = RandomForestRegressor(n_estimators = 200, random_state = 42, max_depth = 7) 
+        if not best_params_search: 
+            self.regressor = RandomForestRegressor(n_estimators = 200, random_state = 42, max_depth = 7)
+        else:
+            parameters = {'n_estimators': [50*x for x in range(1, 4)],
+                'min_samples_split': [5*x for x in range(1,15,2)],
+                'min_samples_leaf': [2*x+1 for x in range(14)],
+                'max_leaf_nodes': [2*x for x in range(1, 9)],
+                'max_depth': [2*x for x in range(1,5)]}
 
+            grid_search = RandomizedSearchCV(RandomForestRegressor(random_state=71830), param_distributions=parameters)
+
+            # Dokonujemy przeszukiwania po wszystkich możliwościach parametrów
+            grid_search.fit(features, labels)
+
+            self.regressor = RandomForestRegressor(**grid_search.best_params_)
+            print("Best params:")
+            print(grid_search.best_params_)
+        
 
     def train(self):
         self.regressor.fit(self.train_features, self.train_labels)

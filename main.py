@@ -8,7 +8,7 @@ import os
 def main():
     data_analyser = DataAnalyser("data/sessions.jsonl", "data/products.jsonl", "data/users.jsonl")
 
-    model = Model(basic_dataset(data_analyser))
+    model = Model(basic_dataset(data_analyser), best_params_search=True)
     model.show_dataset_shapes()
     model.train()
     print("\nTesting on test data:")
