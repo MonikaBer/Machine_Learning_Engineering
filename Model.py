@@ -72,3 +72,10 @@ class Model:
         print('Training Labels Shape:', self.train_labels.shape)
         print('Testing Features Shape:', self.test_features.shape)
         print('Testing Labels Shape:', self.test_labels.shape, '\n')
+
+
+    #serve prediction
+    def predict(self, features):
+        preds = self.regressor.predict(features)
+        return preds[0]
+        

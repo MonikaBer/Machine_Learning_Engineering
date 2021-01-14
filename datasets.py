@@ -27,9 +27,9 @@ def complex_dataset(data_analyser:DataAnalyser):
     Atrybuty:
     1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
     2) Stosunek sesji zakończonych kupnem do wszystkich dotychczasowych sesji usera                     - trochę informacji wnosi
-    3) Atrakcyjność cenowa (cena ostatnio oglądanego produktu w sesji wzg śr ceny produktów z tej kat.) - trochę informacji wnosi
-    4) Częstotliwość kupowania ostatnio oglądanego produktu                                             - trochę informacji wnosi                
+    3) Częstotliwość kupowania ostatnio oglądanego produktu                                             - trochę informacji wnosi                
     
+    4) Atrakcyjność cenowa (cena ostatnio oglądanego produktu w sesji wzg śr ceny produktów z tej kat.) - nic nie wnosi
     5) Kategoria produktu                                                                               - prawie nic nie wnosi 
     6) Obniżka cenowa ostanio ogladanego produktu                                                       - nie wnosi nic
     7) Zniżka ostatniej aktywnosci                                                                      - nie wnosi nic
@@ -41,9 +41,9 @@ def complex_dataset(data_analyser:DataAnalyser):
     features = np.array([(
                         len(s.session_activities),
                         get_previous_buy_sessions_for_user_proportion(s, data_analyser),
-                        get_price_attractiveness(s, data_analyser),
                         find_frequency(s, data_analyser),
 
+                        #get_price_attractiveness(s, data_analyser),
                         #get_category(s, data_analyser),
                         # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
