@@ -78,9 +78,10 @@ class DataAnalyser:
             return
 
         for line_dict in line_dict_list:
+            # category_path = (line_dict['category_path'])[:(line_dict['category_path']).index(';')]
+            # product = Product(line_dict['product_id'], line_dict['product_name'], category_path, line_dict['price'])
             product = Product(line_dict['product_id'], line_dict['product_name'], line_dict['category_path'], line_dict['price'])
             self.products.append(product)
-
 
     def init_users(self, users_filename):
         with open(users_filename, 'r') as f:
@@ -92,9 +93,14 @@ class DataAnalyser:
         if len(line_dict_list) == 0:
             return
 
+        cities = []
+
         for line_dict in line_dict_list:
             user = User(line_dict)
             self.users.append(user)
+            cities.append(user.city)
+
+        self.cities_set = set(cities)
 
 
     def show_sessions(self):

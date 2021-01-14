@@ -6,16 +6,23 @@ class Session:
         self.session_id = session_id
         self.session_activities = []
         self.if_buy = False 
+        self.user_id = None
 
+        unknown_user = False
         for activity in activities:
             try:
                 session_activity = SessionActivity(activity)
                 self.session_activities.append(session_activity)
                 if session_activity.event_type == EventType.BUY and self.if_buy == False:
                     self.if_buy = True
+                if session_activity.user_id is not None and self.user_id is None:
+                    self.user_id = session_activity.user_id 
+                elif session_activity.user_id is not None and self.user_id is not None and session_activity.user_id != self.user_id:
+                    unknown_user = True
             except:
                 print("Problem with data set formatting")
-
+        if unknown_user:
+            self.user_id = None
         self.duration = self.calculate_duration()   # czas trwania liczony w sekundach
 
 

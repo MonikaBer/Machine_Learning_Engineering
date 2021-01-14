@@ -17,11 +17,13 @@ def basic_dataset(data_analyser:DataAnalyser):
     features = np.array([(
                         len(s.session_activities),
                         get_previous_buy_sessions_for_user_proportion(s, data_analyser),
+                        get_price_attractiveness(s, data_analyser),
                         #find_price_reduction(s, data_analyser),
                         #get_user_gender(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
                         # s.duration,
                         find_frequency(s, data_analyser),
+                        # get_city(s, data_analyser),
                         # 0,
                         ) 
                         for s in data_analyser.sessions])
@@ -51,14 +53,13 @@ def find_frequency(session, data_analyzer:DataAnalyser):
 
 def get_user_gender(session, data_analyser:DataAnalyser):
     """ Płeć użytkownika """
-    for a in session.session_activities:
-        for u in data_analyser.users:
-            if a.user_id == u.user_id:
-                if u.gender == Gender.MALE:
-                    return int(Gender.MALE)
-                elif u.gender == Gender.FEMALE:
-                    return int(Gender.FEMALE)
-                break
+    for u in data_analyser.users:
+        if session.user_id == u.user_id:
+            if u.gender == Gender.MALE:
+                return int(Gender.MALE)
+            elif u.gender == Gender.FEMALE:
+                return int(Gender.FEMALE)
+            break
     return int(Gender.UNKNOWN)
                 
 
@@ -66,14 +67,10 @@ def get_previous_buy_sessions_for_user_proportion(s, data_analyser:DataAnalyser)
     """ Stosunek dotychczasowych sesji użytkownika zakończonych zakupem """
     buy_counter = 0
     total_counter = 0
-    user_id = get_session_user_id(s, data_analyser)
-    print(user_id)
 
-    if user_id != -1:
+    if s is not None:
         for session in data_analyser.sessions:
-            user_id2 = get_session_user_id(session, data_analyser)
-            
-            if user_id == user_id2:
+            if s.user_id == session.user_id:
                 if session.if_buy:
                     buy_counter += 1
                 total_counter += 1
@@ -81,16 +78,41 @@ def get_previous_buy_sessions_for_user_proportion(s, data_analyser:DataAnalyser)
             if session.session_id == s.session_id:
                 if total_counter == 0:
                     return 0
-                return buy_counter / total_counter * 100
+                return buy_counter / total_counter
 
     if total_counter == 0:
         return 0
-    return buy_counter / total_counter * 100
+    return buy_counter / total_counter
 
-def get_session_user_id(session, data_analyser:DataAnalyser):
-    for a in session.session_activities:
-        if a.user_id != None:
-            return a.user_id
-    return -1
+def get_price_attractiveness(s, data_analyser:DataAnalyser):
+    """ Cena ostatnio oglądanego produktu w sesji podzielona przez średnią cenę wszystkich produktów z tej podkategorii """
+    last_product_id = s.session_activities[-1].product_id
+    last_product_category = None
 
+    for p in data_analyser.products:
+        if p.product_id == last_product_id:
+            last_product_category = p.category_path
+            last_product_price = p.price
 
+    if last_product_category is None or last_product_price is None:
+        return 0
+
+    prices_sum_in_category = 0
+    counter = 0
+    for p in data_analyser.products:
+        if p.category_path == last_product_category:
+            prices_sum_in_category += p.price
+            counter += 1
+
+    avg_price_in_category = round(prices_sum_in_category / counter, 2)
+    return last_product_price / avg_price_in_category
+
+def get_city(s, data_analyser:DataAnalyser):
+    for u in data_analyser.users:
+        if u.user_id == s.user_id:
+            counter = 0
+            for city in data_analyser.cities_set:
+                if city == u.city:
+                    return counter
+                counter += 1
+    return 0
