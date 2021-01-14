@@ -2,6 +2,7 @@ from Model import Model
 from DataAnalyser import DataAnalyser
 from datasets import *
 import os
+import joblib
 
 
 
@@ -15,6 +16,9 @@ def main():
     model.test(show_accuracy=True, test_data=True)
     print("\nTesting on train data:")
     model.test(show_accuracy=True, test_data=False)
+
+
+    joblib.dump(model, 'models/complex_model')
 
 
     #data_analyser.show_sessions()
