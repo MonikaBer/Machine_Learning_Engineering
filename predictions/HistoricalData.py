@@ -68,6 +68,10 @@ class HistoricalData:
                 activities.append(line_dict_list[i])
             i += 1
 
+        if len(activities) != 0:
+            session = Session(curr_session_id, activities, self.users, self.products, finished=True)
+            self.sessions.append(session)
+
 
     # def show_products(self):
     #     for product in self.products:

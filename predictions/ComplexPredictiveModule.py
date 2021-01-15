@@ -26,8 +26,11 @@ class ComplexPredictiveModule:
         curr_session_id = line_dict_list[i]['session_id']
         activities.append(line_dict_list[i])
 
+        print(f'{line_dict_list[i]}\n')
+
         i = 1
         while i < len(line_dict_list):
+            print(f'{line_dict_list[i]}\n')
             if curr_session_id == line_dict_list[i]['session_id']:
                 activities.append(line_dict_list[i])
             else:
@@ -37,6 +40,10 @@ class ComplexPredictiveModule:
                 curr_session_id = line_dict_list[i]['session_id']
                 activities.append(line_dict_list[i])
             i += 1
+        
+        if len(activities) != 0:
+            session = Session(curr_session_id, activities, self.historical_data.users, self.historical_data.products, finished=False)
+            self.open_sessions.append(session)
 
 
     def build_features(self):
@@ -58,7 +65,7 @@ class ComplexPredictiveModule:
 
 
     def show_result(self):
-        print('Probability that session will be finished with BUY:\n\n') 
+        print('\nProbability that session will be finished with BUY:\n') 
         for s in self.open_sessions:
             if s.if_buy is None:
                 print(f'Session_id = {s.session_id} -> UNKNOWN')

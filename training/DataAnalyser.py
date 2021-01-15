@@ -66,6 +66,10 @@ class DataAnalyser:
                 activities.append(line_dict_list[i])
             i += 1
 
+        if len(activities) != 0:
+            session = Session(curr_session_id, activities=)
+            self.sessions.append(session)
+
 
     def init_products(self, products_filename):
         with open(products_filename, 'r') as f:
