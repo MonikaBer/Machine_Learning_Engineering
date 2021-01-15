@@ -1,4 +1,4 @@
-from common.Session import Session
+from training.Session import Session
 import numpy as np
 import copy
 

@@ -1,7 +1,7 @@
 import json
 
-from common.Session import Session
-from common.Session import EventType
+from training.Session import Session
+from training.Session import EventType
 from training.Product import Product
 from training.User import User
 from training.User import Gender
