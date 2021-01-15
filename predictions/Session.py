@@ -33,6 +33,8 @@ class Session:
                     break
             if if_product_unknown:
                 a.product_id = None
+        
+        self.for_AB_exp = None
 
 
 class SessionActivity:

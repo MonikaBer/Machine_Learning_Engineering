@@ -1,6 +1,6 @@
-{"session_id": 109640, "prediction": 36.49, "user_id": 301, "session_length": 3}
-{"session_id": 109641, "prediction": 75.96, "user_id": 111, "session_length": 3}
-{"session_id": 109643, "prediction": 29.3, "user_id": 205, "session_length": 3}
-{"session_id": 109646, "prediction": 95.39, "user_id": 293, "session_length": 3}
-{"session_id": 109647, "prediction": 45.11, "user_id": 111, "session_length": 3}
-{"session_id": 109648, "prediction": 34.37, "user_id": 139, "session_length": 1}
+{"session_id": 109640, "prediction": 36.97, "user_id": 301, "session_length": 3}
+{"session_id": 109641, "prediction": 89.71, "user_id": 111, "session_length": 3}
+{"session_id": 109643, "prediction": 27.89, "user_id": 205, "session_length": 3}
+{"session_id": 109646, "prediction": 95.61, "user_id": 293, "session_length": 3}
+{"session_id": 109647, "prediction": 46.34, "user_id": 111, "session_length": 3}
+{"session_id": 109648, "prediction": 34.72, "user_id": 139, "session_length": 1}

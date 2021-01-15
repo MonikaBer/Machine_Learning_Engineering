@@ -19,6 +19,9 @@ class PredictiveModule:
     def save_result(self, result_filename):
         with open(result_filename, 'w') as f:
             for s in self.open_sessions:
+                if not s.for_AB_exp:
+                    continue
+
                 if s.if_buy is None:   
                     f.write('{"session_id": ' + str(s.session_id) + 
                             ', "prediction": null, "user_id": ' + str(s.user_id) + 

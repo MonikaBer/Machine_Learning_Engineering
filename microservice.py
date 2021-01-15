@@ -53,11 +53,14 @@ def divide_open_sessions(open_sessions):
     
     for s in open_sessions:
         if s.user_id is None:
-            continue
-        elif s.user_id % 2 == 0:
-            set_for_basic.append(s)
-        else:
+            s.for_AB_exp = False
             set_for_complex.append(s)
+        else:
+            s.for_AB_exp = True
+            if s.user_id % 2 == 0:
+                set_for_basic.append(s)
+            else:
+                set_for_complex.append(s)
 
     return set_for_complex, set_for_basic
 
