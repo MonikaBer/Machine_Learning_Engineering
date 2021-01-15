@@ -92,14 +92,14 @@ def main():
         basic_pred_mod.load_data(set_for_basic)
         basic_pred_mod.predict()
         basic_pred_mod.show_result()
-        basic_pred_mod.save_result('results/basic_result')
+        basic_pred_mod.save_result('results/basic_result.jsonl')
 
         if len(set_for_complex) != 0:
             complex_pred_mod.load_data(set_for_complex)
             complex_pred_mod.build_features()
             complex_pred_mod.predict()
             complex_pred_mod.show_result()
-            complex_pred_mod.save_result('results/complex_result')
+            complex_pred_mod.save_result('results/complex_result.jsonl')
         
 
     elif mode == 'basic':

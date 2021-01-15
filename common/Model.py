@@ -2,13 +2,16 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
 import numpy as np
 
+test_set_size = 0.20
+estimators_number = 200
+max_tree_depth = 7
 
 class Model:
     """Wspólna klasa obu modeli"""
 
     def __init__(self, dataset):
         features, labels = dataset
-        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
+        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = test_set_size, random_state = 42) 
         pass
 
     def test(self, predictions, test_data = True):
@@ -80,7 +83,7 @@ class AdvancedModel(Model):
     def __init__(self, dataset, best_params_search = False):
         super().__init__(dataset)
         if not best_params_search: 
-            self.regressor = RandomForestRegressor(n_estimators = 200, random_state = 42, max_depth = 7)
+            self.regressor = RandomForestRegressor(n_estimators = estimators_number, random_state = 42, max_depth = max_tree_depth)
         else:
             parameters = {'n_estimators': [50*x for x in range(1, 4)],
                 'min_samples_split': [5*x for x in range(1,15,2)],
