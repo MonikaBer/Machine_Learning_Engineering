@@ -1,6 +1,5 @@
 import os
 import joblib
-
 from common.Model import AdvancedModel, BasicModel
 from training.DataAnalyser import DataAnalyser
 from training.datasets import prepare_dataset
