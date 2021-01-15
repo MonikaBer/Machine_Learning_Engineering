@@ -1,5 +1,7 @@
 # Machine_Learning_Engineering
 
+Project gives an opportunity to training two models (one simple, another one more complex). Environment of working is online store. Models are being trained in order to give predictions about users sessions in online store. Next, trained models have to predict if active session of user will finished with buying event. 
+
 ## Predictions serving:
 
 ```bash
