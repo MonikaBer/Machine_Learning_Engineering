@@ -66,9 +66,14 @@ class SystemData:
             new_session = Session(event)
             self.ownerless_sessions.append(new_session)
             return
-        
+    
         for u in self.users:
             if u.user_id == event.user_id:
+                for s in self.ownerless_sessions:
+                    if s.session_id == event.session_id:
+                        u.sessions_history.append(s)
+                        self.ownerless_sessions.remove(s)
+                
                 for s in u.sessions_history:
                     if s.session_id == event.session_id:
                         s.addEvent(event)
