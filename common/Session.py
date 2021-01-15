@@ -23,7 +23,6 @@ class Session:
                 print("Problem with data set formatting")
         if unknown_user:
             self.user_id = None
-        self.duration = self.calculate_duration()   # czas trwania liczony w sekundach
 
 
     def calculate_duration(self):

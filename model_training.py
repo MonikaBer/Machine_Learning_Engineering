@@ -1,35 +1,36 @@
 import os
 import joblib
 
-from common.Model import Model
+from common.Model import AdvancedModel, BasicModel
 from training.DataAnalyser import DataAnalyser
-from training.datasets import *
+from training.datasets import prepare_dataset
 
 
 def main():
     data_analyser = DataAnalyser("data/sessions.jsonl", "data/products.jsonl", "data/users.jsonl")
+    dataset = prepare_dataset(data_analyser)
 
     print("\n----------BASIC-MODEL-TRAINING-----------:")
-    basic_model = Model(basic_dataset(data_analyser), best_params_search=False)
+    basic_model = BasicModel(dataset)
     basic_model.show_dataset_shapes()
     basic_model.train()
     print("\nBasic model testing on test data:")
-    basic_model.test(show_accuracy=True, test_data=True)
+    basic_model.test(test_data=True)
     print("\nBasic model testing on train data:")
-    basic_model.test(show_accuracy=True, test_data=False)
+    basic_model.test(test_data=False)
 
     joblib.dump(basic_model, 'models/basic_model')
 
 
 
     print("\n\n\n----------COMPLEX-MODEL-TRAINING-----------:")
-    complex_model = Model(complex_dataset(data_analyser), best_params_search=True)
+    complex_model = AdvancedModel(dataset, best_params_search=False)
     complex_model.show_dataset_shapes()
     complex_model.train()
     print("\nComplex model testing on test data:")
-    complex_model.test(show_accuracy=True, test_data=True)
+    complex_model.test(test_data=True)
     print("\nComplex model testing on train data:")
-    complex_model.test(show_accuracy=True, test_data=False)
+    complex_model.test(test_data=False)
 
     joblib.dump(complex_model, 'models/complex_model')
 

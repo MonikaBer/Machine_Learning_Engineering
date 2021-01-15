@@ -1,28 +1,12 @@
+from common.Session import Session
 import numpy as np
+import copy
 
 from training.DataAnalyser import DataAnalyser
 from training.User import Gender
 
 
-def basic_dataset(data_analyser:DataAnalyser):
-    """
-    Atrybut:
-    1)Ilość aktywności w sesji
-    """
-
-    features = np.array([(
-        len(s.session_activities),
-        ) 
-        for s in data_analyser.sessions])
-    
-    labels  = np.array([int(s.if_buy) for s in data_analyser.sessions])
-
-    return features, labels
-
-
-
-
-def complex_dataset(data_analyser:DataAnalyser):
+def prepare_dataset(data_analyser:DataAnalyser):
     """
     Atrybuty:
     1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
@@ -37,8 +21,14 @@ def complex_dataset(data_analyser:DataAnalyser):
     9) Miasto użytkownika związanego z sesją                                                            - nie wnosi nic
     10) Płeć użytkownika związanego z sesją                                                             - nie wnosi nic
     """
+    all_session_samples = []
+    for session in data_analyser.sessions:
+        all_session_samples.extend(decompose_session(session))
+
+
     # W tupli wszystkie features, które model będzie uwzględniał
     features = np.array([(
+                        s.session_id,
                         len(s.session_activities),
                         get_previous_buy_sessions_for_user_proportion(s, data_analyser),
                         find_frequency(s, data_analyser),
@@ -47,18 +37,31 @@ def complex_dataset(data_analyser:DataAnalyser):
                         #get_category(s, data_analyser),
                         # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
-                        # s.duration,
+                        s.calculate_duration(),
                         # get_city(s, data_analyser),
                         # get_user_gender(s, data_analyser),
                         # 0,
                         ) 
-                        for s in data_analyser.sessions])
+                        for s in all_session_samples])
 
-    labels  = np.array([int(s.if_buy) for s in data_analyser.sessions])
+    labels  = np.array([int(s.if_buy) for s in all_session_samples])
+
+    # [DEBUG] Wyświetlanie próbek 
+    np.set_printoptions(precision=3, suppress=True)
+    print(features[:16])
+    print("Ilość próbek: ", len(all_session_samples))
+    print("Próbki zakończone sukcesem: ", len([s for s in all_session_samples if s.if_buy]))
 
     return features, labels
 
 
+def decompose_session(s:Session):
+    decomposed_sessions = [s]
+    for i in range(1, len(s.session_activities)):
+        tmp = copy.deepcopy(s)
+        del tmp.session_activities[-i:]
+        decomposed_sessions.append(tmp)
+    return decomposed_sessions
 
 
 def find_price_reduction(session, data_analyzer:DataAnalyser):
