@@ -8,7 +8,7 @@ python3 microservice.py --mode <mode>
 ### mode:
 * basic - usage of basic model
 * complex - usage of complex model
-* ab - A/B experiment execute with usage of both models
+* ab - A/B experiment with usage of both models execution
 
 ## Model training:
 
