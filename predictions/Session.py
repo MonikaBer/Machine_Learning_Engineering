@@ -26,7 +26,12 @@ class Session:
             self.user_id = None
 
         for a in self.activities:
-            if a.product_id not in historical_products:
+            if_product_unknown = True
+            for p in historical_products:
+                if p.product_id == a.product_id:
+                    if_product_unknown = False
+                    break
+            if if_product_unknown:
                 a.product_id = None
 
 

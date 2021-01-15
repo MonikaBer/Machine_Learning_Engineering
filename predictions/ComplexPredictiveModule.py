@@ -51,6 +51,7 @@ class ComplexPredictiveModule:
                             len(s.activities),
                             self.count_user_custom(s),
                             self.count_product_buying_frequency(s),
+                            self.get_product_rating(s)
                             ) 
                             for s in self.open_sessions])
 
@@ -117,3 +118,15 @@ class ComplexPredictiveModule:
                 bought_in_session_counter += 1
             
         return bought_in_session_counter / was_in_session_counter
+
+    def get_product_rating(self, session):
+        last_product_id = session.activities[-1].product_id
+
+        if last_product_id is None:
+            return 0
+
+        for p in self.historical_data.products:
+            if p.product_id == last_product_id:
+                return p.rating
+        
+        return 0

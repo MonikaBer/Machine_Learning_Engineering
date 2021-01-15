@@ -1,4 +1,5 @@
 import json
+from predictions.Product import Product
 from predictions.Session import Session
 
 class HistoricalData:
@@ -24,7 +25,8 @@ class HistoricalData:
             return
 
         for line_dict in line_dict_list:
-            self.products.append(line_dict['product_id'])
+            product = Product(line_dict['product_id'], line_dict['rating'])
+            self.products.append(product)
 
 
     def init_users(self, users_filename):
@@ -75,7 +77,7 @@ class HistoricalData:
 
     # def show_products(self):
     #     for product in self.products:
-    #         print(f'product id = {product.product_id}\n')
+    #         print(f'product id = {product.product_id}, rating = {product.rating}\n')
 
 
     # def show_users(self):

@@ -23,7 +23,7 @@ def main():
 
 
     print("\n\n\n----------COMPLEX-MODEL-TRAINING-----------:")
-    complex_model = AdvancedModel(dataset, best_params_search=False)
+    complex_model = AdvancedModel(dataset, best_params_search=True)
     complex_model.show_dataset_shapes()
     complex_model.train()
     print("\nComplex model testing on test data:")

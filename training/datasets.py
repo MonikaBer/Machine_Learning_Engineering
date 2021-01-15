@@ -40,7 +40,7 @@ def prepare_dataset(data_analyser:DataAnalyser, decompose_sessions = True):
                         #get_category(s, data_analyser),
                         # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
-                        s.calculate_duration(),
+                        #s.calculate_duration(),
                         # get_city(s, data_analyser),
                         # get_user_gender(s, data_analyser),
                         # 0,
