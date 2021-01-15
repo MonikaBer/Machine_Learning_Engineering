@@ -1,5 +1,6 @@
 import joblib
 import json
+import sys
 from common.Model import Model
 from predictions.HistoricalData import HistoricalData
 from predictions.ComplexPredictiveModule import ComplexPredictiveModule
@@ -62,8 +63,12 @@ def divide_open_sessions(open_sessions):
 
 
 def main():
-    #TODO: mode as argument
-    mode = 'ab'
+    if len(sys.argv) != 3 or sys.argv[1] == "help":
+        print(  "Usage: python3 microservice.py --mode <mode>\n" +
+                "Mode: basic / complex / ab" )
+        exit(1)
+
+    mode = sys.argv[2]
     
     historical_data = HistoricalData("data/products.jsonl", "data/users.jsonl", "data/sessions.jsonl")
     open_sessions = load_input_data('data/current_sessions.jsonl', historical_data.users, historical_data.products)
@@ -116,8 +121,10 @@ def main():
         complex_pred_mod.show_result()
 
     else:
-        print('Unknown mode')
-    
+        print(  'Unknown mode\n' +
+                "Usage: python3 microservice.py <mode>\n" +
+                "Mode: basic / complex / ab" )
+        exit(1)
 
 if __name__ == '__main__':
     main()
