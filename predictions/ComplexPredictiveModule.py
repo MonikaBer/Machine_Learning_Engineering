@@ -116,7 +116,9 @@ class ComplexPredictiveModule:
                 was_in_session_counter += 1
             if bought_in_session(s, last_product_id):
                 bought_in_session_counter += 1
-            
+
+        if was_in_session_counter == 0:
+            return 0  
         return bought_in_session_counter / was_in_session_counter
 
     def get_product_rating(self, session):
