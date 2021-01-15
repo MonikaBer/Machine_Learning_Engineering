@@ -11,15 +11,16 @@ def prepare_dataset(data_analyser:DataAnalyser, decompose_sessions = True):
     Atrybuty:
     1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
     2) Stosunek sesji zakończonych kupnem do wszystkich dotychczasowych sesji usera                     - trochę informacji wnosi
-    3) Częstotliwość kupowania ostatnio oglądanego produktu                                             - trochę informacji wnosi                
+    3) Częstotliwość kupowania ostatnio oglądanego produktu                                             - trochę informacji wnosi  
+    4) Ocena ostatnio oglądanego produktu produktu                                                      - trochę informacji wnosi  
     
-    4) Atrakcyjność cenowa (cena ostatnio oglądanego produktu w sesji wzg śr ceny produktów z tej kat.) - nic nie wnosi
-    5) Kategoria produktu                                                                               - prawie nic nie wnosi 
-    6) Obniżka cenowa ostanio ogladanego produktu                                                       - nie wnosi nic
-    7) Zniżka ostatniej aktywnosci                                                                      - nie wnosi nic
-    8) Czas trwania sesji w sekundach                                                                   - trochę informacji wnosi względem samych zer, ale i tak 1) lepsze samo
-    9) Miasto użytkownika związanego z sesją                                                            - nie wnosi nic
-    10) Płeć użytkownika związanego z sesją                                                             - nie wnosi nic
+    5) Atrakcyjność cenowa (cena ostatnio oglądanego produktu w sesji wzg śr ceny produktów z tej kat.) - nic nie wnosi
+    6) Kategoria produktu                                                                               - prawie nic nie wnosi 
+    7) Obniżka cenowa ostanio ogladanego produktu                                                       - nie wnosi nic
+    8) Zniżka ostatnio oglądanego produktu                                                              - nie wnosi nic
+    9) Czas trwania sesji w sekundach                                                                   - trochę informacji wnosi względem samych zer, ale i tak 1) lepsze samo
+    10) Miasto użytkownika związanego z sesją                                                            - nie wnosi nic
+    11) Płeć użytkownika związanego z sesją                                                             - nie wnosi nic
     """
     all_session_samples = []
     if decompose_sessions:
