@@ -6,7 +6,7 @@ from training.DataAnalyser import DataAnalyser
 from training.User import Gender
 
 
-def prepare_dataset(data_analyser:DataAnalyser):
+def prepare_dataset(data_analyser:DataAnalyser, decompose_sessions = True):
     """
     Atrybuty:
     1) Ilość aktywności w sesji                                                                         - bardzo dużo informacji wnosi
@@ -22,18 +22,21 @@ def prepare_dataset(data_analyser:DataAnalyser):
     10) Płeć użytkownika związanego z sesją                                                             - nie wnosi nic
     """
     all_session_samples = []
-    for session in data_analyser.sessions:
-        all_session_samples.extend(decompose_session(session))
+    if decompose_sessions:
+        for session in data_analyser.sessions:
+            all_session_samples.extend(decompose_session(session))
+    else:
+        all_session_samples = data_analyser.sessions
 
 
     # W tupli wszystkie features, które model będzie uwzględniał
     features = np.array([(
-                        s.session_id,
                         len(s.session_activities),
-                        get_previous_buy_sessions_for_user_proportion(s, data_analyser),
+                        get_previous_buy_sessions_for_user_proportion(s, data_analyser),    # to duzo daje
                         find_frequency(s, data_analyser),
+                        find_rating(s, data_analyser),
 
-                        #get_price_attractiveness(s, data_analyser),
+                        # get_price_attractiveness(s, data_analyser),
                         #get_category(s, data_analyser),
                         # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
@@ -79,6 +82,15 @@ def find_frequency(session, data_analyzer:DataAnalyser):
     for p in data_analyzer.products:
         if p.product_id == last_product_id:
             return p.frequency
+    return 0    # nie znaleziono produktu
+
+
+def find_rating(session, data_analyzer:DataAnalyser):
+    """ Ocena ostatnio oglądanego produktu """
+    last_product_id = session.session_activities[-1].product_id
+    for p in data_analyzer.products:
+        if p.product_id == last_product_id:
+            return p.rating
     return 0    # nie znaleziono produktu
 
 

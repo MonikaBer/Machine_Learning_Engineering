@@ -7,7 +7,7 @@ from training.datasets import prepare_dataset
 
 def main():
     data_analyser = DataAnalyser("data/sessions.jsonl", "data/products.jsonl", "data/users.jsonl")
-    dataset = prepare_dataset(data_analyser)
+    dataset = prepare_dataset(data_analyser, decompose_sessions=True)
 
     print("\n----------BASIC-MODEL-TRAINING-----------:")
     basic_model = BasicModel(dataset)

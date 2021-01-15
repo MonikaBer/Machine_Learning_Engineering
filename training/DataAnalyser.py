@@ -67,7 +67,7 @@ class DataAnalyser:
             i += 1
 
         if len(activities) != 0:
-            session = Session(curr_session_id, activities=)
+            session = Session(curr_session_id, activities)
             self.sessions.append(session)
 
 
@@ -85,7 +85,7 @@ class DataAnalyser:
         for line_dict in line_dict_list:
             # category_path = (line_dict['category_path'])[:(line_dict['category_path']).index(';')]
             # product = Product(line_dict['product_id'], line_dict['product_name'], category_path, line_dict['price'])
-            product = Product(line_dict['product_id'], line_dict['product_name'], line_dict['category_path'], line_dict['price'])
+            product = Product(line_dict['product_id'], line_dict['product_name'], line_dict['category_path'], line_dict['price'], line_dict['rating'])
             self.products.append(product)
             categories.append(product.category_path[product.category_path.index(';')])
 
