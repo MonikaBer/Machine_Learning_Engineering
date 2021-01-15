@@ -32,7 +32,7 @@ def prepare_dataset(data_analyser:DataAnalyser, decompose_sessions = True):
     # W tupli wszystkie features, które model będzie uwzględniał
     features = np.array([(
                         len(s.session_activities),
-                        get_previous_buy_sessions_for_user_proportion(s, data_analyser),    # to duzo daje
+                        get_previous_buy_sessions_for_user_proportion(s, data_analyser),
                         find_frequency(s, data_analyser),
                         find_rating(s, data_analyser),
 
@@ -40,20 +40,13 @@ def prepare_dataset(data_analyser:DataAnalyser, decompose_sessions = True):
                         #get_category(s, data_analyser),
                         # find_price_reduction(s, data_analyser),
                         # s.session_activities[-1].offered_discount,
-                        #s.calculate_duration(),
+                        # s.calculate_duration(),
                         # get_city(s, data_analyser),
                         # get_user_gender(s, data_analyser),
-                        # 0,
                         ) 
                         for s in all_session_samples])
 
     labels  = np.array([int(s.if_buy) for s in all_session_samples])
-
-    # [DEBUG] Wyświetlanie próbek 
-    np.set_printoptions(precision=3, suppress=True)
-    print(features[:16])
-    print("Ilość próbek: ", len(all_session_samples))
-    print("Próbki zakończone sukcesem: ", len([s for s in all_session_samples if s.if_buy]))
 
     return features, labels
 
