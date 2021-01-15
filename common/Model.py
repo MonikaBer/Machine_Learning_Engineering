@@ -49,10 +49,6 @@ class Model:
         print('Training Labels Shape:', self.train_labels.shape)
         print('Testing Features Shape:', self.test_features.shape)
         print('Testing Labels Shape:', self.test_labels.shape, '\n')
-    
-    #serve prediction
-    def predict(self, features):
-        return self.regressor.predict(features)
 
 
 class BasicModel(Model):
@@ -62,18 +58,22 @@ class BasicModel(Model):
 
     def train(self):
         """"Udaje zaawansowany model - w rzeczywistosci nie potrzebuje uczenia"""
+        self.constant_prediction = int(np.count_nonzero(self.train_labels) / len(self.train_labels) > 0.5)
         print('"Training" complete')
 
 
     def test(self, test_data = True):
         if test_data:
-            constant_prediction = int(np.count_nonzero(self.test_labels) / len(self.test_labels) > 0.5)
-            predictions = [constant_prediction for _ in self.test_features]
+            predictions = [self.constant_prediction for _ in self.test_features]
         else:
-            constant_prediction = int(np.count_nonzero(self.train_labels) / len(self.train_labels) > 0.5)
-            predictions = [constant_prediction for _ in self.train_features]
+            predictions = [self.constant_prediction for _ in self.train_features]
 
         super().test(predictions, test_data)
+    
+
+    #serve prediction
+    def predict(self, features):
+        return [self.constant_prediction for _ in features]
 
 
 class AdvancedModel(Model):
@@ -109,3 +109,7 @@ class AdvancedModel(Model):
         else: 
             predictions = self.regressor.predict(self.train_features)
         super().test(predictions, test_data)
+
+    #serve prediction
+    def predict(self, features):
+        return self.regressor.predict(features)

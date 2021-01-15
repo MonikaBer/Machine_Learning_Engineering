@@ -1,7 +1,4 @@
-import os
-import json
 import numpy as np
-from predictions.Session import Session
 
 class ComplexPredictiveModule:
     def __init__(self, complex_model, historical_data):
@@ -9,41 +6,8 @@ class ComplexPredictiveModule:
         self.historical_data = historical_data
 
 
-    def load_input_data(self, input_filename):
-        self.open_sessions = []
-
-        with open(input_filename, 'r') as f:
-            line_dict_list = []
-            for line in f:
-                line_dict = json.loads(line)
-                line_dict_list.append(line_dict)
-
-        if len(line_dict_list) == 0:
-            return
-
-        activities = []
-        i = 0
-        curr_session_id = line_dict_list[i]['session_id']
-        activities.append(line_dict_list[i])
-
-        print(f'{line_dict_list[i]}\n')
-
-        i = 1
-        while i < len(line_dict_list):
-            print(f'{line_dict_list[i]}\n')
-            if curr_session_id == line_dict_list[i]['session_id']:
-                activities.append(line_dict_list[i])
-            else:
-                session = Session(curr_session_id, activities, self.historical_data.users, self.historical_data.products, finished=False)
-                self.open_sessions.append(session)
-                activities = []
-                curr_session_id = line_dict_list[i]['session_id']
-                activities.append(line_dict_list[i])
-            i += 1
-        
-        if len(activities) != 0:
-            session = Session(curr_session_id, activities, self.historical_data.users, self.historical_data.products, finished=False)
-            self.open_sessions.append(session)
+    def load_data(self, open_sessions):
+        self.open_sessions = open_sessions
 
 
     def build_features(self):
@@ -66,12 +30,22 @@ class ComplexPredictiveModule:
 
 
     def show_result(self):
+        print('\n-----COMPLEX-MODEL -PREDICTIONS-----:\n')
         print('\nProbability that session will be finished with BUY:\n') 
         for s in self.open_sessions:
             if s.if_buy is None:
                 print(f'Session_id = {s.session_id} -> UNKNOWN')
             else:
                 print(f'Session_id = {s.session_id} -> {round(s.if_buy*100, 2)} %')
+
+
+    def save_result(self, result_filename):
+        with open(result_filename, 'w') as f:
+            for s in self.open_sessions:
+                if s.if_buy is None:   
+                    f.write('{"session_id": ' + str(s.session_id) + ', "result": null, "user_id": ' + str(s.user_id) + '}\n')
+                else:
+                    f.write('{"session_id": ' + str(s.session_id) + ', "result": ' + str(round(s.if_buy*100, 2)) + ', "user_id": ' + str(s.user_id) + '}\n')
 
 
     def count_user_custom(self, session):
