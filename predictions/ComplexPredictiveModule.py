@@ -1,13 +1,10 @@
 import numpy as np
+from predictions.PredictiveModule import PredictiveModule
 
-class ComplexPredictiveModule:
+class ComplexPredictiveModule(PredictiveModule):
     def __init__(self, complex_model, historical_data):
-        self.complex_model = complex_model
+        super().__init__(complex_model)
         self.historical_data = historical_data
-
-
-    def load_data(self, open_sessions):
-        self.open_sessions = open_sessions
 
 
     def build_features(self):
@@ -21,7 +18,7 @@ class ComplexPredictiveModule:
 
 
     def predict(self):
-        labels = self.complex_model.predict(self.features)
+        labels = self.model.predict(self.features)
         
         i = 0
         for s in self.open_sessions:
@@ -31,21 +28,7 @@ class ComplexPredictiveModule:
 
     def show_result(self):
         print('\n-----COMPLEX-MODEL -PREDICTIONS-----:\n')
-        print('\nProbability that session will be finished with BUY:\n') 
-        for s in self.open_sessions:
-            if s.if_buy is None:
-                print(f'Session_id = {s.session_id} -> UNKNOWN')
-            else:
-                print(f'Session_id = {s.session_id} -> {round(s.if_buy*100, 2)} %')
-
-
-    def save_result(self, result_filename):
-        with open(result_filename, 'w') as f:
-            for s in self.open_sessions:
-                if s.if_buy is None:   
-                    f.write('{"session_id": ' + str(s.session_id) + ', "result": null, "user_id": ' + str(s.user_id) + '}\n')
-                else:
-                    f.write('{"session_id": ' + str(s.session_id) + ', "result": ' + str(round(s.if_buy*100, 2)) + ', "user_id": ' + str(s.user_id) + '}\n')
+        super().show_result()    
 
 
     def count_user_custom(self, session):

@@ -65,7 +65,7 @@ def divide_open_sessions(open_sessions):
 def main():
     if len(sys.argv) != 3 or sys.argv[1] == "help":
         print(  "Usage: python3 microservice.py --mode <mode>\n" +
-                "Mode: basic / complex / ab" )
+                "<mode>: basic / complex / ab" )
         exit(1)
 
     mode = sys.argv[2]
