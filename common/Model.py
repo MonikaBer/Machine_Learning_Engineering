@@ -4,6 +4,12 @@ import numpy as np
 
 
 class Model:
+    """Wspólna klasa obu modeli"""
+
+    def __init__(self, dataset):
+        features, labels = dataset
+        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
+        pass
 
     def test(self, predictions, test_data = True):
         if test_data:
@@ -48,8 +54,7 @@ class Model:
 
 class BasicModel(Model):
     def __init__(self, dataset):
-        features, labels = dataset
-        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
+        super().__init__(dataset)
 
 
     def train(self):
@@ -70,8 +75,7 @@ class BasicModel(Model):
 
 class AdvancedModel(Model):
     def __init__(self, dataset, best_params_search = False):
-        features, labels = dataset
-        self.train_features, self.test_features, self.train_labels, self.test_labels = train_test_split(features, labels, test_size = 0.20, random_state = 42) 
+        super().__init__(dataset)
         if not best_params_search: 
             self.regressor = RandomForestRegressor(n_estimators = 200, random_state = 42, max_depth = 7)
         else:
@@ -84,7 +88,7 @@ class AdvancedModel(Model):
             grid_search = RandomizedSearchCV(RandomForestRegressor(random_state=71830), param_distributions=parameters)
 
             # Dokonujemy przeszukiwania po wszystkich możliwościach parametrów
-            grid_search.fit(features, labels)
+            grid_search.fit(dataset[0], dataset[1])
 
             self.regressor = RandomForestRegressor(**grid_search.best_params_)
             print("Best params:")
