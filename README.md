@@ -1,5 +1,17 @@
 # Machine_Learning_Engineering
 
-[initial doc](https://docs.google.com/document/d/1jzubd2naC6nUmkjL-0BnF0vPsnsHgk9AORgu_heylzc/edit)
+## Predictions serving:
 
-[final doc](https://docs.google.com/document/d/1kntzO5VI4HqyApOMlL_IL4rxmKG_isMUbWaiDv2EPJo/edit?fbclid=IwAR2PagmGV-nQp7-jNzuxlmWr-ZObFa8MhK7VXY_dB8pJJZfsWMenDbB5Tts)
+```bash
+python3 microservice.py --mode <mode>
+```
+### <mode>:
+basic - usage of basic model
+complex - usage of complex model
+ab - A/B experiment execute with usage of both models
+
+## Model training:
+
+```bash 
+python3 model_training.py
+```
