@@ -17,7 +17,7 @@ class PredictiveModule:
 
 
     def save_result(self, result_filename):
-        with open(result_filename, 'w') as f:
+        with open(result_filename, 'a') as f:
             for s in self.open_sessions:
                 if not s.for_AB_exp:
                     continue
