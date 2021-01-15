@@ -20,7 +20,14 @@ class PredictiveModule:
         with open(result_filename, 'w') as f:
             for s in self.open_sessions:
                 if s.if_buy is None:   
-                    f.write('{"session_id": ' + str(s.session_id) + ', "result": null, "user_id": ' + str(s.user_id) + '}\n')
+                    f.write('{"session_id": ' + str(s.session_id) + 
+                            ', "prediction": null, "user_id": ' + str(s.user_id) + 
+                            ', "session_length": ' + str(len(s.activities)) + 
+                            '}\n')
                 else:
-                    f.write('{"session_id": ' + str(s.session_id) + ', "result": ' + str(round(s.if_buy*100, 2)) + ', "user_id": ' + str(s.user_id) + '}\n')
+                    f.write('{"session_id": ' + str(s.session_id) + 
+                            ', "prediction": ' + str(round(s.if_buy*100, 2)) + 
+                            ', "user_id": ' + str(s.user_id) + 
+                            ', "session_length": ' + str(len(s.activities)) + 
+                            '}\n')
                     
