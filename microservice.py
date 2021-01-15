@@ -76,6 +76,8 @@ def main():
     historical_data = HistoricalData("data/products.jsonl", "data/users.jsonl", "data/sessions.jsonl")
     open_sessions = load_input_data('data/current_sessions.jsonl', historical_data.users, historical_data.products)
 
+    if len(open_sessions) == 0:
+        return 0
     
     if mode == 'ab':
         print('\n----------A/B-EXP-PREDICTIONS-SERVING----------\n')
@@ -86,18 +88,19 @@ def main():
         basic_pred_mod = BasicPredictiveModule(basic_model)
         
         set_for_complex, set_for_basic = divide_open_sessions(open_sessions)
-        complex_pred_mod.load_data(set_for_complex)
+
         basic_pred_mod.load_data(set_for_basic)
-
-        complex_pred_mod.build_features()
-        complex_pred_mod.predict()
         basic_pred_mod.predict()
-        
-        complex_pred_mod.show_result()
         basic_pred_mod.show_result()
-
-        complex_pred_mod.save_result('results/complex_result')
         basic_pred_mod.save_result('results/basic_result')
+
+        if len(set_for_complex) != 0:
+            complex_pred_mod.load_data(set_for_complex)
+            complex_pred_mod.build_features()
+            complex_pred_mod.predict()
+            complex_pred_mod.show_result()
+            complex_pred_mod.save_result('results/complex_result')
+        
 
     elif mode == 'basic':
         print('\n----------BASIC-MODEL-PREDICTIONS-SERVING----------\n')
